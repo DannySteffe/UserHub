@@ -1,9 +1,10 @@
 // src/App.jsx
-import { Routes, Route } from 'react-router-dom'
-import UserList from './pages/UserList'
-import UserProfile from './pages/UserProfile'
-import Navbar from './components/NavBar'
-import { UserProvider } from './context/UserContext'
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import UserList from "./pages/UserList";
+import UserProfile from "./pages/UserProfile";
+import Navbar from "./components/NavBar";
+import { UserProvider } from "./context/hello";
 
 export default function App() {
   return (
@@ -18,5 +19,5 @@ export default function App() {
         </div>
       </div>
     </UserProvider>
-  )
+  );
 }
