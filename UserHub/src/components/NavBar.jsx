@@ -22,7 +22,7 @@ export default function Navbar() {
           <button
             onClick={toggleTheme}
             className={`px-3 py-1 rounded ${
-              theme === "dark" ? "bg-gray-700" : "bg-gray-200"
+              theme === "dark" ? "bg-gray-600" : "bg-gray-100"
             }`}
           >
             {theme === "dark" ? "☀️ Light" : "🌙 Dark"}
