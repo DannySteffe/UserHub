@@ -1,1 +1,24 @@
 @import "tailwindcss";
+/* Prevent layout shift */
+html {
+  overflow-y: scroll; /* Always show vertical scrollbar */
+}
+
+/* Force dark/light mode on entire app */
+:root {
+  --bg-color: white;
+  --text-color: black;
+  /* Add other light theme variables */
+}
+
+.dark {
+  --bg-color: #1a202c;
+  --text-color: #f7fafc;
+  /* Add other dark theme variables */
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: all 0.3s ease;
+}

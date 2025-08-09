@@ -1,10 +1,12 @@
 // src/App.jsx
 import React, { useContext, useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
-import UserList1 from "./pages/UserList1";
 import UserProfile from "./pages/UserProfile";
 import Navbar from "./components/NavBar";
 import { UserProvider, UserContext } from "./context/hello";
+import UserList1 from "./pages/userList1";
+import "./App.css"; // Assuming you have some global styles
+
 
 function AppContent() {
   const { theme } = useContext(UserContext);

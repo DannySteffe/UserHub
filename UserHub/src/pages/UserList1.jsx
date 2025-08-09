@@ -17,6 +17,8 @@ export default function UserList() {
   // Using Redux
   const authUser = useSelector((state) => state.auth.user);
 
+
+  
   // Fetching data with axios (API call)
   useEffect(() => {
     const fetchUsers = async () => {
