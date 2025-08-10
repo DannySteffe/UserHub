@@ -1,6 +1,4 @@
-// src/pages/UserList.jsx
-import React from "react";
-import { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { UserContext } from "../context/hello";
@@ -17,8 +15,28 @@ export default function UserList() {
   // Using Redux
   const authUser = useSelector((state) => state.auth.user);
 
+  // Function to apply localStorage edits to users
+  const applyUserEdits = (usersData) => {
+    return usersData.map(user => {
+      const savedEdits = localStorage.getItem(`user-${user.id}-edits`);
+      if (savedEdits) {
+        const parsedEdits = JSON.parse(savedEdits);
+        return { ...user, ...parsedEdits };
+      }
+      return user;
+    });
+  };
 
-  
+  // Function to refresh user data with edits
+  const refreshUsersWithEdits = () => {
+    setUsers(prevUsers => {
+      if (prevUsers.length > 0) {
+        return applyUserEdits(prevUsers);
+      }
+      return prevUsers;
+    });
+  };
+
   // Fetching data with axios (API call)
   useEffect(() => {
     const fetchUsers = async () => {
@@ -26,7 +44,11 @@ export default function UserList() {
         const response = await axios.get(
           "https://jsonplaceholder.typicode.com/users"
         );
-        setUsers(response.data);
+        
+        // Apply localStorage edits to each user
+        const usersWithEdits = applyUserEdits(response.data);
+        
+        setUsers(usersWithEdits);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching users:", error);
@@ -35,6 +57,28 @@ export default function UserList() {
     };
 
     fetchUsers();
+  }, []);
+
+  // Listen for page focus to refresh edits when returning from profile page
+  useEffect(() => {
+    const handleFocus = () => {
+      refreshUsersWithEdits();
+    };
+
+    const handleStorageChange = (e) => {
+      // Refresh when localStorage changes (from other tabs)
+      if (e.key && e.key.includes('user-') && e.key.includes('-edits')) {
+        refreshUsersWithEdits();
+      }
+    };
+
+    window.addEventListener('focus', handleFocus);
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('focus', handleFocus);
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, []);
 
   // Array methods (filter, map)
